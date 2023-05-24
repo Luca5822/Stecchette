@@ -46,7 +46,6 @@ function draw(event) {
     //ctx.fillRect(coord.x, coord.y, 10, 10);
 }
 
-const steps = 1;
 function findStecchette() {
     for (let i = 0; i < coords.length; i++) {
         if (coords[i] != coords[coords.length - 1]) {
@@ -86,7 +85,10 @@ function findStecchette() {
                         curry + yslice * i
                     );
                     elements.forEach((element) => {
-                        if (!stecchette.includes(element)) {
+                        if (
+                            !stecchette.includes(element) &&
+                            element.classList.contains("stick")
+                        ) {
                             stecchette.push(element);
                         }
                     });
@@ -94,7 +96,10 @@ function findStecchette() {
             } else {
                 let elements = document.elementsFromPoint(currx, curry);
                 elements.forEach((element) => {
-                    if (element.classList.contains("stick")) {
+                    if (
+                        !stecchette.includes(element) &&
+                        element.classList.contains("stick")
+                    ) {
                         stecchette.push(element);
                     }
                 });
