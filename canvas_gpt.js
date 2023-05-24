@@ -94,7 +94,7 @@ function findStecchette() {
             } else {
                 let elements = document.elementsFromPoint(currx, curry);
                 elements.forEach((element) => {
-                    if (!stecchette.includes(element)) {
+                    if (element.classList.contains("stick")) {
                         stecchette.push(element);
                     }
                 });
@@ -106,51 +106,14 @@ function findStecchette() {
                 ); */
             }
         }
-        /* console.log(
-            "i: " +
-                i +
-                "\ncoords[i]: " +
-                coords[i] +
-                "\ncoords.length: " +
-                coords.length
-        );
-        if (coords[i] != coords[coords.length - 1]) {
-            // x
-            for (
-                let x = coords[i][0];
-                x <= coords[i + 1][0];
-                x += steps * Math.sign(coords[i + 1][0])
-            ) {
-                //y
-                for (
-                    let y = coords[i][1];
-                    y <= coords[i + 1][1];
-                    y += steps * Math.sign(coords[i + 1][1])
-                ) {
-                    ctx.fillRect(
-                        x - board.offsetLeft,
-                        y - board.offsetTop,
-                        10,
-                        10
-                    );
-                    let elements = document.elementsFromPoint(x, y);
-                    elements.forEach((element) => {
-                        if (!stecchette.includes(element)) {
-                            stecchette.push(element);
-                        }
-                    });
-                }
-            }
-        } */
     }
     coords.length = 0;
 }
 
 function processStecchette() {
-    for (let i = 0; i <= stecchette.length; i++) {
-        if (stecchette[i].classList.contains("stick"))
-            stecchette[i].classList.add("del");
-    }
     console.log(stecchette);
+    for (let i = 0; i < stecchette.length; i++) {
+        stecchette[i].classList.add("del");
+    }
     stecchette.length = 0;
 }
