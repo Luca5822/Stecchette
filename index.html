@@ -1,22 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <style>
-		#giocatore1 {
-			position: absolute;
-			top: 0;
-			left: 0;
-            color: #0080FF
-		}
-
-		#giocatore2 {
-			position: absolute;
-			bottom: 0;
-			right: 0;
-			color: #FF7F00;
-		}
-	</style>
-
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,8 +9,8 @@
     <title>Stecchette</title>
 </head>
 <body>
-    <h1 id="giocatore1">Giocatore 1</h1>
-	<h1 id="giocatore2">Giocatore 2</h1>
+    <h1 id="giocatore1" class="testo">Giocatore 1</h1>
+	<h1 id="giocatore2" class="testo">Giocatore 2</h1>
 
     <div id="board">
         <canvas id="camvas"></canvas>
@@ -58,6 +42,6 @@
     </div>
     <button id="reset-button">Reset</button>
     <script src="main.js"></script>
-    <script src="canvas_gpt.js"></script>
+    <script src="canvas.js"></script>
 </body>
 </html>

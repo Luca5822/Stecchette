@@ -1,4 +1,4 @@
-let sticks = document.getElementsByClassName("stick");
+/* let sticks = document.getElementsByClassName("stick");
 for (let i = 0; i < sticks.length; i++) {
     sticks[i].addEventListener("click", function () {
         stecchettaClick(this);
@@ -12,10 +12,61 @@ function stecchettaClick(stecchetta) {
         stecchetta.classList.add("del");
     }
 }
+ */
 
-document.getElementById("reset-button").addEventListener("click", function () {
+// variabile che indica il giocatore corrente
+let giocatore = 1;
+
+// array che indica tutte le stecchette disponibili
+// prettier-ignore
+let stecchetteLibere = [];
+
+// resetta il gioco, ovvero al momento toglie solo la classe del
+document.getElementById("reset-button").addEventListener("click", reset);
+
+function reset() {
     let sticks = document.getElementsByClassName("stick");
     for (let i = 0; i < sticks.length; i++) {
-        sticks[i].classList.remove("del");
+        sticks[i].classList.remove("del", "g1", "g2");
     }
-});
+    giocatore = 1;
+    ctx.strokeStyle = "lightblue";
+    // prettier-ignore
+    stecchetteLibere = [
+                            11,
+                        21,     22,
+                    31,     32,     33,
+                41,     42,     43,     44,
+            51,     52,     53,     54,     55,
+    ]
+}
+
+// "processa" le stecchette, al momento aggiunge solo le stecchette alla classe 'del'
+function processStecchette(stecchette) {
+    console.log(stecchetteLibere);
+    for (let i = 0; i < stecchette.length; i++) {
+        stecchette[i].classList.add("del", "g" + giocatore);
+        stecchetteLibere.splice(stecchetteLibere.indexOf(stecchette[i].id), 1);
+    }
+    console.log(stecchetteLibere);
+    if (stecchetteLibere.length == 1)
+        alert("Ha vinto il giocatore " + giocatore);
+
+    // Reminder, qui le cose sono al contrario, le cose per il giocatore 1 vanno sul case 2
+    switch (giocatore) {
+        case 1:
+            giocatore++;
+            ctx.strokeStyle = "lightcoral";
+            break;
+
+        case 2:
+            giocatore--;
+            ctx.strokeStyle = "lightblue";
+            break;
+        default:
+            alert("hai rotto una semplice variabile, like how");
+            break;
+    }
+}
+
+reset();
