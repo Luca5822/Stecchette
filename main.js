@@ -17,6 +17,8 @@ function stecchettaClick(stecchetta) {
 // variabile che indica il giocatore corrente
 let giocatore = 1;
 
+let coloriGiocatori = ["lightblue", "lightcoral"];
+
 // array che indica tutte le stecchette disponibili
 // prettier-ignore
 let stecchetteLibere = [];
@@ -67,20 +69,12 @@ function processStecchette(stecchette) {
         );
 
     // Reminder, qui le cose sono al contrario, le cose per il giocatore 1 vanno sul case 2
-    switch (giocatore) {
-        case 1:
-            giocatore++;
-            if (!linedebug) ctx.strokeStyle = "lightcoral";
-            break;
+    switchGiocatore();
+}
 
-        case 2:
-            giocatore--;
-            if (!linedebug) ctx.strokeStyle = "lightblue";
-            break;
-        default:
-            alert("hai rotto una semplice variabile, like how");
-            break;
-    }
+function switchGiocatore(reload = false) {
+    if (!reload) giocatore = giocatore === 1 ? 2 : 1;
+    if (!linedebug) ctx.strokeStyle = coloriGiocatori[giocatore - 1];
 }
 
 reset();
