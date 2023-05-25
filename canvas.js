@@ -1,4 +1,4 @@
-const linedebug = false;
+const linedebug = true;
 
 // Carica la "tavola" da gioco e il canvas (per le linee tracciate dal mouse) con il context 2d
 const board = document.getElementById("board");
@@ -56,7 +56,7 @@ function draw(event) {
     reposition(event);
     ctx.lineTo(coord.x, coord.y);
     ctx.stroke();
-    if (linedebug) ctx.fillRect(coord.x, coord.y, 10, 10);
+    if (linedebug) ctx.fillRect(coord.x, coord.y, 5, 10);
 }
 
 // Dato un array di punti, trova se è stata tracciata una linea sopra ad una stecchetta
@@ -76,36 +76,24 @@ function findStecchette() {
             let xdiff = Math.abs(currx - nextx);
             let ydiff = Math.abs(curry - nexty);
 
-            // se una delle differenze è minore di 10:
-            if (xdiff > 10 || ydiff > 10) {
-                let steps;
-                // trova quale delle due differenze è minore e "calcola" il numero di step in cui verrà divisa la linea
-                if (xdiff > ydiff) {
-                    steps = xdiff / 4 + 1; // TODO: non mi piace sta formula
-                } else {
-                    steps = ydiff / 4 + 1;
-                }
-
-                // calcola 1/'steps' da moltiplicare per 'i' dopo
-                const xslice = (Math.sign(currx - nextx) * xdiff) / steps;
-                const yslice = (Math.sign(curry - nexty) * ydiff) / steps;
-
-                for (let i = 1; i <= steps; i++) {
+            // se una delle differenze è minore di 12:
+            if (xdiff > 12 || ydiff > 12) {
+                // Trova i punti tra 2 punti distanti con uno step di 0.04 (ovvero genera 25 punti)
+                for (let i = 0; i <= 1; i += 0.04) {
+                    let x = currx + (nextx - currx) * i;
+                    let y = curry + (nexty - curry) * i;
                     // se il debug è attivo disegna i punti generati in aqua
                     if (linedebug) {
                         ctx.fillStyle = "aqua";
                         ctx.fillRect(
-                            currx + xslice * i - board.offsetLeft,
-                            curry + yslice * i - board.offsetTop,
+                            x - board.offsetLeft,
+                            y - board.offsetTop,
                             6,
                             6
                         );
                     }
                     // cerca elementi html in quella posizione
-                    let elements = document.elementsFromPoint(
-                        currx + xslice * i,
-                        curry + yslice * i
-                    );
+                    let elements = document.elementsFromPoint(x, y);
                     // per ogni elemento trovato, cerca se è già stato identificato e cerca se fa parte della classe "stick", se si viene aggiunto all'array 'stecchette'
                     elements.forEach((element) => {
                         if (
