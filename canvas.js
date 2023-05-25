@@ -42,7 +42,6 @@ function start(event) {
 // Ferma il processo di disegno, pulisce il canvas, inoltre trova e processa le stecchette selezionate
 function stop() {
     document.removeEventListener("mousemove", draw);
-    console.log(linecoords);
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     processStecchette(findStecchette());
 }
@@ -57,7 +56,7 @@ function draw(event) {
     reposition(event);
     ctx.lineTo(coord.x, coord.y);
     ctx.stroke();
-    //ctx.fillRect(coord.x, coord.y, 10, 10);
+    if (linedebug) ctx.fillRect(coord.x, coord.y, 10, 10);
 }
 
 // Dato un array di punti, trova se è stata tracciata una linea sopra ad una stecchetta
@@ -136,8 +135,8 @@ function findStecchette() {
                 if (linedebug) {
                     ctx.fillStyle = "green";
                     ctx.fillRect(
-                        currx + xslice * i - board.offsetLeft,
-                        curry + yslice * i - board.offsetTop,
+                        currx - board.offsetLeft,
+                        curry - board.offsetTop,
                         10,
                         10
                     );

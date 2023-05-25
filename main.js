@@ -43,6 +43,14 @@ function reset() {
 
 // "processa" le stecchette, al momento aggiunge solo le stecchette alla classe 'del'
 function processStecchette(stecchette) {
+    let currrow = stecchette[0].id.toString().split("")[0];
+    for (let i = 1; i < stecchette.length; i++) {
+        if (stecchette[i].id.toString().split("")[0] != currrow) {
+            alert("Mossa invalida");
+            return false;
+        }
+    }
+
     console.log(stecchetteLibere);
     for (let i = 0; i < stecchette.length; i++) {
         stecchette[i].classList.add("del", "g" + giocatore);
@@ -51,17 +59,23 @@ function processStecchette(stecchette) {
     console.log(stecchetteLibere);
     if (stecchetteLibere.length == 1)
         alert("Ha vinto il giocatore " + giocatore);
+    else if (stecchetteLibere.length < 1)
+        alert(
+            "Ha vinto il giocatore " +
+                giocatore +
+                "??\nCioè la tavola non ha più stecchette libere quindi uhh non ho idea chi abbia vinto"
+        );
 
     // Reminder, qui le cose sono al contrario, le cose per il giocatore 1 vanno sul case 2
     switch (giocatore) {
         case 1:
             giocatore++;
-            ctx.strokeStyle = "lightcoral";
+            if (!linedebug) ctx.strokeStyle = "lightcoral";
             break;
 
         case 2:
             giocatore--;
-            ctx.strokeStyle = "lightblue";
+            if (!linedebug) ctx.strokeStyle = "lightblue";
             break;
         default:
             alert("hai rotto una semplice variabile, like how");
