@@ -22,6 +22,7 @@ resize();
 function resize() {
     ctx.canvas.width = board.offsetWidth; //window.innerWidth;
     ctx.canvas.height = board.offsetHeight; //window.innerHeight;
+    switchColors();
 }
 
 // Riposiziona il punto della linea sul canvas e aggiunge le coordinate correnti all'array delle coordinate
