@@ -21,8 +21,9 @@ function processStecchette(stecchette) {
     // estrapola la riga dall'id
     let currrow = stecchette[0].id.toString().split("")[0];
 
+    let laststecchetta = parseInt(stecchette[0].id);
     // cerca se una mossa è invalida
-    for (let i = 1; i < stecchette.length; i++) {
+    for (let i = 0; i < stecchette.length; i++) {
         if (stecchette[i].id.toString().split("")[0] != currrow) {
             alert(
                 "Mossa invalida:\n" +
@@ -37,6 +38,18 @@ function processStecchette(stecchette) {
             );
             return;
         }
+        if (
+            ![laststecchetta - 1, laststecchetta, laststecchetta + 1].includes(
+                parseInt(stecchette[i].id)
+            )
+        ) {
+            alert(
+                "Mossa invalida:\n" +
+                    "Stai cancellando delle stecchette non consecutive"
+            );
+            return;
+        }
+        laststecchetta = parseInt(stecchette[i].id);
     }
 
     // cerca se la mossa cancellerebbe tutte le stecchette
