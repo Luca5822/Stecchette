@@ -18,27 +18,12 @@ body {
     transition-delay: 0s;
 }
 
+/* TODO: pulisci tag css */
+
 :root {
     --bg: #555;
     --g1: blue;
     --g2: red;
-}
-
-.testo {
-    margin: 4vh;
-    position: absolute;
-}
-
-#giocatore1 {
-    top: 0;
-    left: 0;
-    /* color: #0080ff; */
-}
-
-#giocatore2 {
-    bottom: 0;
-    right: 0;
-    /*color: #ff7f00;*/
 }
 
 .row {
@@ -77,5 +62,17 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    /*border: 5px solid #000;*/
+    border: 3px dashed #555;
+}
+
+button {
+    background-color: #333;
+    padding: 10px 15px;
+    border: none;
+    color: #ccc;
+    cursor: progress; /* ;) */
+}
+
+button:hover {
+    background-color: #555;
 }
