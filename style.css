@@ -12,6 +12,16 @@ body {
     font-family: Arial, sans-serif;
     font-size: 24px;
     color: white;
+
+    background-color: var(--bg);
+    transition: background-color 0.2s cubic-bezier(1, 1, 1, 1);
+    transition-delay: 0s;
+}
+
+:root {
+    --bg: #555;
+    --g1: blue;
+    --g2: red;
 }
 
 .testo {
@@ -20,7 +30,6 @@ body {
 }
 
 #giocatore1 {
-    position: absolute;
     top: 0;
     left: 0;
     /* color: #0080ff; */
@@ -48,11 +57,11 @@ body {
 }
 
 .stick.g1 {
-    background-color: lightblue;
+    background-color: var(--g1);
 }
 
 .stick.g2 {
-    background-color: lightcoral;
+    background-color: var(--g2);
 }
 
 #board {
@@ -68,5 +77,5 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    border: 5px solid #000;
+    /*border: 5px solid #000;*/
 }

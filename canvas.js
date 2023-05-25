@@ -1,4 +1,4 @@
-const linedebug = true;
+const linedebug = false;
 
 // Carica la "tavola" da gioco e il canvas (per le linee tracciate dal mouse) con il context 2d
 const board = document.getElementById("board");
@@ -35,15 +35,18 @@ function reposition(event) {
 
 // Avvia il processo di disegno
 function start(event) {
-    document.addEventListener("mousemove", draw);
-    reposition(event);
+    if (candraw) {
+        document.addEventListener("mousemove", draw);
+        reposition(event);
+    }
 }
 
 // Ferma il processo di disegno, pulisce il canvas, inoltre trova e processa le stecchette selezionate
 function stop() {
     document.removeEventListener("mousemove", draw);
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    processStecchette(findStecchette());
+    let stecchette = findStecchette();
+    if (stecchette.length > 0) processStecchette(stecchette);
 }
 
 // Disegna sul canvas
@@ -51,7 +54,7 @@ function draw(event) {
     ctx.beginPath();
     ctx.lineWidth = 5;
     ctx.lineCap = "round";
-    //ctx.strokeStyle = "#ACD3ED"; // TODO: rendi colore quello del giocatore
+    //ctx.strokeStyle = "#ACD3ED";
     ctx.moveTo(coord.x, coord.y);
     reposition(event);
     ctx.lineTo(coord.x, coord.y);
@@ -98,8 +101,7 @@ function findStecchette() {
                     elements.forEach((element) => {
                         if (
                             !stecchette.includes(element) &&
-                            element.matches("div.stick") &&
-                            !element.matches(".del")
+                            element.matches("div.stick")
                         ) {
                             stecchette.push(element);
                         }
@@ -112,8 +114,7 @@ function findStecchette() {
                 elements.forEach((element) => {
                     if (
                         !stecchette.includes(element) &&
-                        element.matches("div.stick") &&
-                        !element.matches(".del")
+                        element.matches("div.stick")
                     ) {
                         stecchette.push(element);
                     }
