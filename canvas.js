@@ -1,4 +1,4 @@
-const linedebug = false;
+const linedebug = true;
 
 // Carica la "tavola" da gioco e il canvas (per le linee tracciate dal mouse) con il context 2d
 const board = document.getElementById("board");
