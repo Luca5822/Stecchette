@@ -11,41 +11,14 @@ let coord = { x: 0, y: 0 };
 // tiene le coordinate della linea del canvas
 const linecoords = [];
 
-// Set up touch events for mobile, etc
-canvas.addEventListener("touchstart", function (e) {
-        mousePos = getTouchPos(canvas, e);
-  var touch = e.touches[0];
-  var mouseEvent = new MouseEvent("mousedown", {
-    clientX: touch.clientX,
-    clientY: touch.clientY
-  });
-  canvas.dispatchEvent(mouseEvent);
-}, false);
-canvas.addEventListener("touchend", function (e) {
-  var mouseEvent = new MouseEvent("mouseup", {});
-  canvas.dispatchEvent(mouseEvent);
-}, false);
-canvas.addEventListener("touchmove", function (e) {
-  var touch = e.touches[0];
-  var mouseEvent = new MouseEvent("mousemove", {
-    clientX: touch.clientX,
-    clientY: touch.clientY
-  });
-  canvas.dispatchEvent(mouseEvent);
-}, false);
-
-// Get the position of a touch relative to the canvas
-function getTouchPos(canvasDom, touchEvent) {
-  var rect = canvasDom.getBoundingClientRect();
-  return {
-    x: touchEvent.touches[0].clientX - rect.left,
-    y: touchEvent.touches[0].clientY - rect.top
-  };
-}
+// prettier-ignore
+canvas.addEventListener("touchstart",starttouch, {passive: false});
+// prettier-ignore
+canvas.addEventListener("touchend", stoptouch, {passive: false});
 
 // Listener per il mouse o quando viene ridimensionata la finestra
-canvas.addEventListener("mousedown", start);
-canvas.addEventListener("mouseup", stop);
+canvas.addEventListener("mousedown", startmouse);
+canvas.addEventListener("mouseup", stopmouse);
 window.addEventListener("resize", resize);
 // TODO: trova il modo per tenere il canvas non troppo largo rispetto al bordo delle stecchette (a destra e a sinistra, in alto e basso aggiungi un margine)
 resize();
@@ -59,15 +32,25 @@ function resize() {
 
 // Riposiziona il punto della linea sul canvas e aggiunge le coordinate correnti all'array delle coordinate
 function reposition(event) {
-    let pagex = event.clientX - canvas.offsetLeft;
-    let pagey = event.clientY - canvas.offsetTop;
+    let correctEvent = event.type.includes("mouse") ? event : event.touches[0];
+    let pagex = correctEvent.clientX - canvas.offsetLeft;
+    let pagey = correctEvent.clientY - canvas.offsetTop;
     coord.x = pagex - board.offsetLeft;
     coord.y = pagey - board.offsetTop;
     linecoords.push([pagex, pagey]);
 }
 
 // Avvia il processo di disegno
-function start(event) {
+function starttouch(event) {
+    if (candraw) {
+        event.preventDefault();
+        document.addEventListener("touchmove", draw);
+        reposition(event);
+    }
+}
+
+// Avvia il processo di disegno
+function startmouse(event) {
     if (candraw) {
         document.addEventListener("mousemove", draw);
         reposition(event);
@@ -75,7 +58,16 @@ function start(event) {
 }
 
 // Ferma il processo di disegno, pulisce il canvas, inoltre trova e processa le stecchette selezionate
-function stop() {
+function stoptouch(event) {
+    event.preventDefault();
+    document.removeEventListener("touchmove", () => draw);
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    let stecchette = findStecchette();
+    if (stecchette.length > 0) processStecchette(stecchette);
+}
+
+// Ferma il processo di disegno, pulisce il canvas, inoltre trova e processa le stecchette selezionate
+function stopmouse() {
     document.removeEventListener("mousemove", draw);
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     let stecchette = findStecchette();
@@ -89,6 +81,7 @@ function draw(event) {
     ctx.lineCap = "round";
     //ctx.strokeStyle = "#ACD3ED";
     ctx.moveTo(coord.x, coord.y);
+    console.log(event);
     reposition(event);
     ctx.lineTo(coord.x, coord.y);
     ctx.stroke();
