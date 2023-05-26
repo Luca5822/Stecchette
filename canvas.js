@@ -11,23 +11,21 @@ let coord = { x: 0, y: 0 };
 // tiene le coordinate della linea del canvas
 const linecoords = [];
 
-// prettier-ignore
-canvas.addEventListener("touchstart",starttouch, {passive: false});
-// prettier-ignore
-canvas.addEventListener("touchend", stoptouch, {passive: false});
+canvas.addEventListener("touchstart", starttouch, { passive: false });
+canvas.addEventListener("touchend", stoptouch, { passive: false });
 
 // Listener per il mouse o quando viene ridimensionata la finestra
 canvas.addEventListener("mousedown", startmouse);
 canvas.addEventListener("mouseup", stopmouse);
 window.addEventListener("resize", resize);
 // TODO: trova il modo per tenere il canvas non troppo largo rispetto al bordo delle stecchette (a destra e a sinistra, in alto e basso aggiungi un margine)
-resize();
+window.addEventListener("DOMContentLoaded", resize);
 
 // Ridimensiona il canvas
 function resize() {
     ctx.canvas.width = board.offsetWidth; //window.innerWidth;
     ctx.canvas.height = board.offsetHeight; //window.innerHeight;
-    //switchColors(); //TODO: fixa il colore che torna nero al resize
+    switchColors(); //TODO: fixa il colore che torna nero al resize
 }
 
 // Riposiziona il punto della linea sul canvas e aggiunge le coordinate correnti all'array delle coordinate
@@ -60,7 +58,7 @@ function startmouse(event) {
 // Ferma il processo di disegno, pulisce il canvas, inoltre trova e processa le stecchette selezionate
 function stoptouch(event) {
     event.preventDefault();
-    document.removeEventListener("touchmove", () => draw);
+    document.removeEventListener("touchmove", draw);
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     let stecchette = findStecchette();
     if (stecchette.length > 0) processStecchette(stecchette);
@@ -81,7 +79,6 @@ function draw(event) {
     ctx.lineCap = "round";
     //ctx.strokeStyle = "#ACD3ED";
     ctx.moveTo(coord.x, coord.y);
-    console.log(event);
     reposition(event);
     ctx.lineTo(coord.x, coord.y);
     ctx.stroke();

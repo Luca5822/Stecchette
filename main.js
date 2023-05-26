@@ -137,4 +137,5 @@ function reset() {
 }
 
 // resetta il gioco per essere sicuri che sia tutto apposto
-reset();
+
+window.addEventListener("DOMContentLoaded", reset);
