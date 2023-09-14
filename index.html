@@ -43,5 +43,36 @@
         <button id="reset-button">Reset</button>
         <script src="canvas.js"></script>
         <script src="main.js"></script>
+	<script>
+                var color1 = "#2fb06b";
+                var color2 = "#37336e";
+                var currentColorIndex = 0;
+
+                function getNextColor() {
+                    if (currentColorIndex === 0) {
+                        currentColorIndex = 1;
+                        return color1;
+                    } else {
+                        currentColorIndex = 0;
+                        return color2;
+                    }
+                }
+                function updateTextColor() {
+                    var footerText = document.querySelector(".footer");
+                    var newColor = getNextColor();
+                    footerText.style.color = newColor;
+                }
+
+                var footerText = document.createElement("div");
+                footerText.className = "footer";
+                footerText.textContent = "Creato da Luca Pellizzon e Davide Gasparetto";
+                footerText.style.position = "fixed";
+                footerText.style.bottom = "10px";
+                footerText.style.right = "10px";
+                
+                document.body.appendChild(footerText);
+
+                setInterval(updateTextColor, 1000);
+	</script>
     </body>
 </html>
