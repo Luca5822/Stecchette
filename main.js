@@ -5,7 +5,7 @@ let giocatore;
 const colors = document.querySelector(":root");
 
 // colori dei giocatori
-let coloriGiocatori = ["#e1c9c7", "#260022"];
+let coloriGiocatori = ["#7da891", "#3c3a7d"];
 
 // array che indica tutte le stecchette disponibili
 let stecchetteLibere = [];
